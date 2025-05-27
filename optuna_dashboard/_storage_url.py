@@ -77,13 +77,14 @@ def _has_sqlite_header(storage_url: str) -> bool:
 
 
 def guess_storage_from_url(storage_url: str) -> BaseStorage:
-    if storage_url.startswith("redis"):
+    if storage_url.startswith("redis://"):
         return get_journal_redis_storage(storage_url)
 
     if os.path.isfile(storage_url):
         if _has_sqlite_header(storage_url):
-            get_rdb_storage(f"sqlite:///{storage_url}")
-        return get_journal_file_storage(storage_url)
+            return get_rdb_storage(f"sqlite:///{storage_url}")
+        else:
+            return get_journal_file_storage(storage_url)
 
     if rfc1738_pattern.match(storage_url) is not None:
         return get_rdb_storage(storage_url)
