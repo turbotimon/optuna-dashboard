@@ -115,8 +115,7 @@ def main() -> None:
     parser.add_argument("--quiet", "-q", help="quiet", action="store_true")
     args = parser.parse_args()
 
-    storage: BaseStorage
-    storage = get_storage(args.storage, storage_class=args.storage_class)
+    storage: BaseStorage = get_storage(args.storage, storage_class=args.storage_class)
 
     artifact_store: ArtifactStore | None
     if args.artifact_dir is None:
